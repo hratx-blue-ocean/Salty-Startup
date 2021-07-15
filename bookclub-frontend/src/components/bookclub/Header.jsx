@@ -108,7 +108,7 @@ const Header = (props) => {
   const handleSearchSubmit = () => {
     searchByCategory(null, searchInput)
       .then((results) => {
-        props.setSearchResults(results)
+        props.setSearchResults(results[0].data.items)
       })
   }
 
