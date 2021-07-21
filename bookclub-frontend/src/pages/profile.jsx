@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Header from '../components/bookclub/Header.jsx';
 import User from '../components/bookclub/UserInfo.jsx';
 import withSlide from '../components/bookclub/BookGallery.jsx';
-// import { favorites, previouslyRead, wantToRead } from '../dummyData/booklist.jsx';
 import {getUserData} from '../services/bookclubServices.js'
 
 const useStyles = makeStyles(() => ({
@@ -30,7 +30,8 @@ const Profile = (props) => {
   const [currentlyReading, setCurrentlyReading] = useState([]);
 
   useEffect(() => {
-    getUserData(props.uid.UID)
+    if (props.uid.UID) {
+      getUserData(props.uid.UID)
       .then((response) => {
         var results = response.data;
         setUser(results.name);
@@ -40,6 +41,8 @@ const Profile = (props) => {
         setWantToRead(results.lists.goingToRead);
         setCurrentlyReading(results.lists.currentlyReading);
       })
+    }
+    return;
   }, [])
 
   const faveList = {
@@ -72,6 +75,8 @@ const Profile = (props) => {
   }
 
   return (
+    // if props.uid.UID is undefined, redirect to landing page
+    !props.uid.UID ? <Redirect to='/'/> :
     <div key={props.emailCookie.UID}>
       <Header
         isLoggedIn={props.isLoggedIn}
