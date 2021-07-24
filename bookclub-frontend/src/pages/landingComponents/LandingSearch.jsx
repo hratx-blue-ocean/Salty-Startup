@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0px 7px 15px -5px gray'
   },
   buttons: {
+    alignItems: 'center',
     color: '#fee4ea',
     backgroundColor: '#004d86',
     boxShadow: '0px 7px 10px -5px black'

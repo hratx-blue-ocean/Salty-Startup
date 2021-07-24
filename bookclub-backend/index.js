@@ -5,6 +5,7 @@ const functions = require('firebase-functions')
 const bookclubRouter = require('./routes/bookclubRoutes');
 const decodeIDToken = require('./authenticateToken');
 const atlasPassword = require('./config');
+const path = require('path')
 
 const app = express();
 
@@ -25,12 +26,18 @@ mongoose.connect(
 
 const PORT = 4200;
 
+app.use(express.static(path.join(__dirname, '../bookclub-frontend/build')));
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../bookclub-frontend/build/index.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello World');
+// });
 
 exports.api = functions.https.onRequest(app);
